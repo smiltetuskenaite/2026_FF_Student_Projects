@@ -48,7 +48,9 @@ Limits: the groups are small, species are related by evolution so they are not i
 I used Claude, an AI assistant, to help find the source paper, to draft the scripts and to explain the Git steps. 
 
 ## Photo credits
-The animal photos are from Pexels ,free to use under their licences: https://www.pexels.com
+All animal photos and the meadow photo are from Pexels (https://www.pexels.com) and are used under the Pexels licence. The photographer and link for every photo are listed in [site/images/CREDITS.md](site/images/CREDITS.md). Some photos are illustrative and may show a related species, not the exact one named.
+
+The page font is Fraunces, loaded from Google Fonts (open licence). The page needs an internet connection to show it; offline it falls back to a standard serif font.
 
 ## Vision viewer
 
@@ -66,7 +68,7 @@ To remake the pictures:
 
     python scripts/make_vision_images.py
 
-The meadow photo is from Pexels (https://www.pexels.com).
+The meadow photo is from Pexels; see `site/images/CREDITS.md` for the photographer.
 
 ### Sources for the vision numbers
 
