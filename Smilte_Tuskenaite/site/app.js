@@ -3,6 +3,15 @@ const grid = document.getElementById("grid");
 const detail = document.getElementById("detail");
 let filter = "all";
 
+// For photos where the animal is cut off, say where the picture window should look.
+// "center top" shows the top of the photo. Every other animal uses "center".
+const PICTURE_FOCUS = {
+  "macaca-mulatta": "center 20%",
+  "bubo-virginianus": "center top",
+  "gallus-gallus-domesticus": "center 35%",
+  "anolis-cristatellus": "center 60%"
+};
+
 function showGrid() {
   grid.innerHTML = "";
   for (const animal of SPECIES) {
@@ -11,7 +20,7 @@ function showGrid() {
     const card = document.createElement("button");
     card.className = "card";
         card.innerHTML = `
-      <img src="images/${animal.species_id}.jpg" alt="${animal.common_name}" onerror="this.remove()">
+            <img src="images/${animal.species_id}.jpg" alt="${animal.common_name}" style="object-position: ${PICTURE_FOCUS[animal.species_id] || 'center'}" onerror="this.remove()">
       <span>${animal.common_name}</span>
     `;
     card.onclick = () => selectAnimal(card, animal);
@@ -27,8 +36,7 @@ function selectAnimal(card, animal) {
 
   const light = animal.light_level === "H" ? "bright light" : "low light";
   detail.innerHTML = `
-  <img class="detail-photo" src="images/${animal.species_id}.jpg" alt="${animal.common_name}" onerror="this.remove()">  
-  <h2>${animal.common_name}</h2>
+  <img class="detail-photo" src="images/${animal.species_id}.jpg" alt="${animal.common_name}" style="object-position: ${PICTURE_FOCUS[animal.species_id] || 'center'}" onerror="this.remove()">  <h2>${animal.common_name}</h2>
     <p class="latin">${animal.latin_name}</p>
     <p>Flicker fusion: <strong>${animal.flicker_fusion_hz} Hz</strong> (human: 60 Hz)</p>
         <div class="blink-row">
@@ -41,6 +49,7 @@ function selectAnimal(card, animal) {
     <p>Body mass: ${animal.body_mass_g} g</p>
     <p>Lives in: ${light}</p>
   `;
+    detail.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 for (const button of document.querySelectorAll(".filter")) {
