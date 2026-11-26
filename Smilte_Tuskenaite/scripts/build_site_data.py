@@ -4,12 +4,11 @@ Joins the raw flicker fusion table with the common names, and passes the
 analysis results to the website as small JavaScript files it can load.
 
 Reads:  data/raw/flicker_fusion_raw.csv, data/species_names.csv,
-        results/fit_summary.csv, results/cff_vs_mass.png
-Writes: site/species_data.js, site/fit_data.js, site/results/cff_vs_mass.png
+        results/fit_summary.csv
+Writes: site/species_data.js, site/fit_data.js
 Run from the project folder:  python scripts/build_site_data.py
 """
 import json
-import shutil
 from pathlib import Path
 
 import pandas as pd
@@ -19,12 +18,9 @@ ROOT = Path(__file__).resolve().parent.parent
 RAW_FILE = ROOT / "data" / "raw" / "flicker_fusion_raw.csv"
 NAMES_FILE = ROOT / "data" / "species_names.csv"
 FIT_FILE = ROOT / "results" / "fit_summary.csv"
-PLOT_FILE = ROOT / "results" / "cff_vs_mass.png"
 SITE_DIR = ROOT / "site"
-SITE_RESULTS_DIR = SITE_DIR / "results"
 
 SITE_DIR.mkdir(exist_ok=True)
-SITE_RESULTS_DIR.mkdir(exist_ok=True)
 
 
 def write_js_variable(name, records, out_file):
@@ -55,12 +51,8 @@ species_file = SITE_DIR / "species_data.js"
 write_js_variable("SPECIES", records, species_file)
 print("Saved:", species_file, "with", len(records), "species")
 
-# --- 2. Copy the latest plot into the site folder ------------------------
-# so the website folder is self-contained
-shutil.copy(PLOT_FILE, SITE_RESULTS_DIR / PLOT_FILE.name)
-print("Copied cff_vs_mass.png into site/results")
 
-# --- 3. Analysis results for the plot's trend lines and result box -------
+# --- 2. Analysis results for the plot's trend lines and result box -------
 fit = pd.read_csv(FIT_FILE)
 write_js_variable("FIT", fit.to_dict(orient="records"), SITE_DIR / "fit_data.js")
 print("Saved fit_data.js")
